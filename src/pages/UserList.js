@@ -41,15 +41,15 @@ const UserList = () => {
 
   // Columns definition including the Action column
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'email', headerName: 'Email', width: 150 },
-    { field: 'role', headerName: 'Role', width: 90 },
-    { field: 'status', headerName: 'Status', width: 90 },
-    { field: 'createdAt', headerName: 'Created At', width: 150 },
+    { field: 'id', headerName: 'ID', flex: 1, minWidth: 90 },
+    { field: 'email', headerName: 'Email', flex: 1, minWidth: 150 },
+    { field: 'role', headerName: 'Role', flex: 1, minWidth: 90 },
+    { field: 'status', headerName: 'Status', flex: 1, minWidth: 90 },
+    { field: 'createdAt', headerName: 'Created At', flex: 1, minWidth: 150 },
     {
       field: 'action',
       headerName: 'Action',
-      width: 150,
+      flex: 1, minWidth: 150,
       renderCell: (params) => (
         <Button
           variant="contained"
@@ -77,7 +77,7 @@ const rows = users
   const paginationModel = { pageSize: 5, page: 0 };
 
   return (
-    <Paper sx={{ height: 400, width: '100%' }}>
+    <Paper sx={{ height: 'calc(81vh - 0px)', width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/tasks', // Change the base URL to point to tasks
+  baseURL: 'http://localhost:3000/tasks', // Change the base URL to point to tasks
 });
 
 const getTasks = () => {

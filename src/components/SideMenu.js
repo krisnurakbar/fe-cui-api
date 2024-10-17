@@ -38,11 +38,15 @@ export default function SideMenu() {
       <Box
         sx={{
           display: 'flex',
-          mt: 'calc(var(--template-frame-height, 0px) + 4px)',
-          p: 1.5,
+          alignItems: 'center',
+          p: 2,  // Padding around the logo/title
+          // You can adjust the height if necessary
         }}
       >
-        <SelectContent />
+        
+        <Typography variant="h6" sx={{ ml: 2, fontWeight: 'bold' }}>
+          ClickUp+ {/* Replace with your app title */}
+        </Typography>
       </Box>
       <Divider />
       <MenuContent />
@@ -64,10 +68,10 @@ export default function SideMenu() {
         />
         <Box sx={{ mr: 'auto' }}>
           <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
-            Riley Carter
+            {localStorage.getItem('userEmail')}
           </Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            riley@email.com
+          {localStorage.getItem('userRole')}
           </Typography>
         </Box>
         <OptionsMenu />

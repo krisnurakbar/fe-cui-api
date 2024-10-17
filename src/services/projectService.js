@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/projects',
+  baseURL: 'http://localhost:3000/projects',
 });
 
 const getProjects = () => {
@@ -20,9 +20,14 @@ const deleteProject = (id) => {
   return api.delete(`/${id}`);
 };
 
+const projectProgress = (id) => {
+  return api.get(`/${id}/progress`);
+};
+
 export default {
   getProjects,
   updateProject,
   updateStatusProject,
   deleteProject,
+  projectProgress,
 };

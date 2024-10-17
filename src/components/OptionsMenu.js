@@ -30,6 +30,8 @@ export default function OptionsMenu() {
   const handleLogout = () => {
     console.log("Logging out..."); // Log for debugging
     localStorage.removeItem("userToken"); // Clear the user token from local storage
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userRole");
     navigate('/login'); // Redirect to the login page after logout
     window.location.reload(); // Force a refresh if necessary
   };

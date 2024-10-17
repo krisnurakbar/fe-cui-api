@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Paper, Button } from '@mui/material';
+import { Paper, Button, IconButton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import projectService from '../services/projectService'; // Assuming you have a projectService for API calls
 import axios from 'axios'; // Import axios for sending API requests
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import ScurveIcon from '@mui/icons-material/ShowChart';
 
   const ProjectList = () => {
   const [projects, setProjects] = useState([]);
@@ -43,34 +44,55 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate for naviga
 
   // Columns definition including the Action column
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'project_name', headerName: 'Project Name', width: 150 },
-    { field: 'status', headerName: 'Status', width: 90 },
-    { field: 'createdAt', headerName: 'Created At', width: 150 },
+    {
+      field: 'S-Curve',
+      headerName: 'S-Curve',
+      flex: 1,
+      minWidth: 70,
+      renderCell: (params) => (
+        <IconButton
+          aria-label="s-curve"
+          onClick={() => window.open(`/project/${params.id}/s-curve`, '_blank')} // Opens the link in a new tab
+          size="small" // Makes the button small
+        >
+          <ScurveIcon fontSize="small" /> {/* Adjust icon size as needed */}
+        </IconButton>
+      ),
+    },
+    { field: 'id', headerName: 'ID', flex: 1, minWidth: 50 },
+    { field: 'project_name', headerName: 'Project Name', flex: 1,  minWidth: 150 },
+    { field: 'start_date', headerName: 'Start Date', flex: 1, minWidth: 90 },
+    { field: 'due_date', headerName: 'Due Date', flex: 1, minWidth: 90 },
+    { field: 'status', headerName: 'Status', flex: 1, minWidth: 90 },
+    { field: 'createdAt', headerName: 'Created At', flex: 1, minWidth: 150 },
     {
       field: 'action',
       headerName: 'Action',
-      width: 150,
+      flex: 1,
+      minWidth: 150,
       renderCell: (params) => (
         <Button
           variant="contained"
           color={params.row.status ? 'secondary' : 'primary'}
           onClick={() => handleToggleProject(params.row.id, params.row.status)}
+          size='small'
         >
           {params.row.status ? 'Deactivate' : 'Activate'}
         </Button>
       ),
     },
     {
-      field: '',
-      headerName: '',
-      width: 150,
+      field: ' ',
+      headerName: ' ',
+      flex: 1,
+      minWidth: 150,
       renderCell: (params) => (
         <Button
           variant="outlined"
           onClick={() => navigate(`/tasks/project/${params.row.id}`)} // Link to project tasks page
+          size='small'
         >
-          View Tasks
+          View
         </Button>
       ),
     },
@@ -81,6 +103,8 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate for naviga
   const rows = projects.map((project) => ({
     id: project.id,
     project_name: project.project_name,
+    start_date: project.start_date,
+    due_date: project.due_date,
     status: project.status,
     createdAt: project.created_at,
   }));
@@ -88,7 +112,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate for naviga
   const paginationModel = { pageSize: 5, page: 0 };
 
   return (
-    <Paper sx={{ height: 400, width: '100%' }}>
+    <Paper sx={{ height: 'calc(81vh - 0px)', width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}

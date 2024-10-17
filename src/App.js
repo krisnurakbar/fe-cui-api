@@ -8,6 +8,7 @@ import UserList from './pages/UserList';
 import ProjectList from './pages/ProjectList';
 import TaskList from './pages/TaskList';
 import ProjectTaskList from './pages/ProjectTaskList';
+import Scurve from './pages/Scurve';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Dashboard from './pages/Dashboard';
@@ -17,6 +18,7 @@ import './App.css';
 import AppNavbar from './components/AppNavbar';
 import SideMenu from './components/SideMenu';
 import { Box, Stack } from '@mui/material';
+
 
 const App = () => {
   const loggedIn = isLoggedIn();
@@ -31,7 +33,11 @@ const App = () => {
     { path: "/", element: loggedIn ? <Navigate to="/dashboard" /> : <Home /> },
     { path: "/tasks", element: loggedIn ? <TaskList /> : <Navigate to="/login" /> }, // Corrected Navigate path
     { path: "/tasks/project/:project_id", element: loggedIn ? <ProjectTaskList /> : <Navigate to="/login" /> }, // Corrected Navigate path
+    //{ path: "/:projectId/progress",element: loggedIn ? <Scurve /> : <Navigate to="/login" /> }, // Corrected Navigate path
+  ];
 
+  const annonymousRoutes = [
+    { path: "project/:projectId/s-curve", element: <Scurve /> }, // Removed loggedIn check
   ];
 
   return (
@@ -68,11 +74,17 @@ const App = () => {
                 <Route key={path} path={path} element={element} />
               ))}
             </Routes>
+            {/* Render anonymous routes without theme */}
+            <Routes>
+              {annonymousRoutes.map(({ path, element }) => (
+                <Route key={path} path={path} element={element} />
+              ))}
+            </Routes>
           </Stack>
 
-          <Footer />
         </Box>
       </Router>
+      
     </ThemeProvider>
   );
 };

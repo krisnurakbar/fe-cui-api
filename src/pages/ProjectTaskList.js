@@ -37,19 +37,6 @@ const ProjectTasks = () => {
 
 // Define columns for the DataGrid with auto width
 const columns = [
-  {
-    field: 'S-Curve',
-    headerName: 'S-Curve',
-    width: 70,
-    renderCell: (params) => (
-      <IconButton
-        aria-label="s-curve"
-        size="small" // Makes the button small
-      >
-        <ScurveIcon fontSize="small" /> {/* Adjust icon size as needed */}
-      </IconButton>
-    ),
-  },
   { field: 'id', headerName: 'ID', flex: 1, minWidth: 50 },
   { field: 'task_title', headerName: 'Task Title', flex: 2, minWidth: 180 },
   { field: 'status', headerName: 'Status', flex: 1, minWidth: 100 },
@@ -89,7 +76,7 @@ const columns = [
 
 
   return (
-    <Paper sx={{ height: 400, width: '100%' }}>
+    <Paper sx={{ height: 'calc(81vh - 0px)', width: '100%' }}>
         <Typography variant="h5" padding={2}>
         Tasks for Project ID: {project_id}
         </Typography>

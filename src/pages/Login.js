@@ -17,6 +17,9 @@ const Login = () => {
 
       if (response.status === 200 || response.status === 201) {
         localStorage.setItem("userToken", response.data.token); // Store the token
+        localStorage.setItem("userEmail", response.data.email);
+        localStorage.setItem("userRole", response.data.role);
+
         setOpenSnackbar(true); // Show Snackbar for success
         setTimeout(() => {
           navigate('/dashboard'); // Redirect to dashboard after success
