@@ -13,21 +13,22 @@ import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
+import { Divider } from '@mui/material';
 
 const mainListItems = [
   { text: 'Home', icon: <HomeRoundedIcon />, link: '/' },
-  { text: 'Users', icon: <PeopleRoundedIcon />, link: '/users' },
   { text: 'Projects', icon: <AnalyticsRoundedIcon />, link: '/projects' },
-  { text: 'Tasks', icon: <AssignmentRoundedIcon />, link: '/tasks' },
+  // { text: 'Tasks', icon: <AssignmentRoundedIcon />, link: '/tasks' },
 ];
 
 const secondaryListItems = [
-  { text: 'Settings', icon: <SettingsRoundedIcon /> },
-  { text: 'About', icon: <InfoRoundedIcon /> },
-  { text: 'Feedback', icon: <HelpRoundedIcon /> },
+  { text: 'Users', icon: <PeopleRoundedIcon />, link: '/users' },
 ];
 
 export default function MenuContent() {
+  // Retrieve userRole from local storage
+  const userRole = localStorage.getItem('userRole'); // Adjust the key based on your setup
+
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
       <List dense>
@@ -40,17 +41,23 @@ export default function MenuContent() {
           </ListItem>
         ))}
       </List>
-
-      <List dense>
-        {secondaryListItems.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
+      <Divider />
+      {/* Conditionally render secondary list items based on userRole */}
+      {userRole === 'Admin' && (
+        <List dense>
+          <ListItem>
+            <ListItemText primary="Master" /> {/* Add "Master" text here */}
           </ListItem>
-        ))}
-      </List>
+          {secondaryListItems.map((item, index) => (
+            <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+              <ListItemButton component={Link} to={item.link}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      )}
     </Stack>
   );
 }

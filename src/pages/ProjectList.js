@@ -6,15 +6,16 @@ import axios from 'axios'; // Import axios for sending API requests
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import ScurveIcon from '@mui/icons-material/ShowChart';
 
-  const ProjectList = () => {
-  const [projects, setProjects] = useState([]);
+const ProjectList = () => {
+  const [projects, setProjects] = useState([]); // Store all projects
+  const [filteredProjects, setFilteredProjects] = useState([]); // Store filtered projects
   const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await projectService.getProjects();
-        setProjects(response.data);
+        setProjects(response.data || []); // Ensure it defaults to an empty array if undefined
       } catch (error) {
         console.error('Error fetching projects:', error);
       }
@@ -23,16 +24,24 @@ import ScurveIcon from '@mui/icons-material/ShowChart';
     fetchData();
   }, []);
 
-  // Function to handle status update
+  useEffect(() => {
+    // Retrieve userEmail from local storage
+    const userEmail = localStorage.getItem('userEmail'); // Adjust the key as per your storage
+
+    if (projects && userEmail) { // Check if projects and userEmail are defined
+      const filtered = projects.filter(project => project.modified_by === userEmail);
+      setFilteredProjects(filtered);
+    }
+  }, [projects]); // Run filtering when projects change
+
   const handleToggleProject = async (id, currentStatus) => {
-    const newStatus = !currentStatus; // Toggle status (true/false)
-  
+    const newStatus = !currentStatus;
+
     try {
       const response = await axios.patch(`http://localhost:5000/projects/${id}/${newStatus}`);
-  
       if (response.status === 200) {
-        setProjects((prevProjects) => 
-          prevProjects.map((project) =>
+        setProjects(prevProjects => 
+          prevProjects.map(project =>
             project.id === id ? { ...project, status: newStatus } : project
           )
         );
@@ -42,7 +51,6 @@ import ScurveIcon from '@mui/icons-material/ShowChart';
     }
   };
 
-  // Columns definition including the Action column
   const columns = [
     {
       field: 'S-Curve',
@@ -53,14 +61,14 @@ import ScurveIcon from '@mui/icons-material/ShowChart';
         <IconButton
           aria-label="s-curve"
           onClick={() => window.open(`/project/${params.id}/s-curve`, '_blank')} // Opens the link in a new tab
-          size="small" // Makes the button small
+          size="small"
         >
-          <ScurveIcon fontSize="small" /> {/* Adjust icon size as needed */}
+          <ScurveIcon fontSize="small" />
         </IconButton>
       ),
     },
     { field: 'id', headerName: 'ID', flex: 1, minWidth: 50 },
-    { field: 'project_name', headerName: 'Project Name', flex: 1,  minWidth: 150 },
+    { field: 'project_name', headerName: 'Project Name', flex: 1, minWidth: 150 },
     { field: 'start_date', headerName: 'Start Date', flex: 1, minWidth: 90 },
     { field: 'due_date', headerName: 'Due Date', flex: 1, minWidth: 90 },
     { field: 'status', headerName: 'Status', flex: 1, minWidth: 90 },
@@ -89,18 +97,16 @@ import ScurveIcon from '@mui/icons-material/ShowChart';
       renderCell: (params) => (
         <Button
           variant="outlined"
-          onClick={() => navigate(`/tasks/project/${params.row.id}`)} // Link to project tasks page
+          onClick={() => navigate(`/tasks/project/${params.row.id}`)}
           size='small'
         >
           View
         </Button>
       ),
     },
-    
   ];
 
-  // Mapping projects to rows
-  const rows = projects.map((project) => ({
+  const rows = filteredProjects.map(project => ({
     id: project.id,
     project_name: project.project_name,
     start_date: project.start_date,

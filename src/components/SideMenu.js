@@ -43,8 +43,13 @@ export default function SideMenu() {
           // You can adjust the height if necessary
         }}
       >
+        <Avatar
+          sx={{ width: 36, height: 36, mr: 2 }}
+          src="/clickup.png"
+          alt="ClickUp"
+        />
         
-        <Typography variant="h6" sx={{ ml: 2, fontWeight: 'bold' }}>
+        <Typography variant="h6" sx={{ ml: 1, fontWeight: 'bold' }}>
           ClickUp+ {/* Replace with your app title */}
         </Typography>
       </Box>
