@@ -22,7 +22,7 @@ const UserList = () => {
 
   try {
     newStatus = !currentStatus; // Toggle status (true/false)
-    const response = await axios.patch(`http://localhost:5000/users/${id}/${newStatus}`);
+    const response = await axios.patch(`${process.env.BE_URL}/users/${id}/${newStatus}`);
 
     if (response.status === 200) {
       setUsers((prevUsers) => 

@@ -27,7 +27,7 @@ const TaskList = () => {
     const newStatus = !currentStatus; // Toggle status (true/false)
 
     try {
-      const response = await axios.patch(`http://localhost:5000/tasks/${id}/${newStatus}`);
+      const response = await axios.patch(`${process.env.BE_URL}/tasks/${id}/${newStatus}`);
 
       if (response.status === 200) {
         setTasks((prevTasks) =>

@@ -38,7 +38,7 @@ const ProjectList = () => {
     const newStatus = !currentStatus;
 
     try {
-      const response = await axios.patch(`http://localhost:5000/projects/${id}/${newStatus}`);
+      const response = await axios.patch(`${process.env.BE_URL}/projects/${id}/${newStatus}`);
       if (response.status === 200) {
         setProjects(prevProjects => 
           prevProjects.map(project =>
