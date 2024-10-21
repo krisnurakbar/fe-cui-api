@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation, useParams } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './components/theme/themePrimitives';
 import Login from './pages/Login';
@@ -19,9 +19,9 @@ import AppNavbar from './components/AppNavbar';
 import SideMenu from './components/SideMenu';
 import { Box, Stack } from '@mui/material';
 
-
 const App = () => {
   const loggedIn = isLoggedIn();
+  const location = useLocation(); 
 
   const commonRoutes = [
     { path: "/login", element: loggedIn ? <Navigate to="/dashboard" /> : <Login /> },
@@ -31,19 +31,25 @@ const App = () => {
     { path: "/home", element: loggedIn ? <Navigate to="/dashboard" /> : <Home /> },
     { path: "/projects", element: loggedIn ? <ProjectList /> : <Navigate to="/login" /> },
     { path: "/", element: loggedIn ? <Navigate to="/dashboard" /> : <Home /> },
-    { path: "/tasks", element: loggedIn ? <TaskList /> : <Navigate to="/login" /> }, // Corrected Navigate path
-    { path: "/tasks/project/:project_id", element: loggedIn ? <ProjectTaskList /> : <Navigate to="/login" /> }, // Corrected Navigate path
-    //{ path: "/:projectId/progress",element: loggedIn ? <Scurve /> : <Navigate to="/login" /> }, // Corrected Navigate path
+    { path: "/tasks", element: loggedIn ? <TaskList /> : <Navigate to="/login" /> },
+    { path: "/tasks/project/:project_id", element: loggedIn ? <ProjectTaskList /> : <Navigate to="/login" /> },
   ];
 
-  const annonymousRoutes = [
-    { path: "project/:projectId/s-curve", element: <Scurve /> }, // Removed loggedIn check
+  const anonymousRoutes = [
+    { path: "/project/s-curve/:projectId", element: <Scurve /> },
   ];
+
+  // Updated isAnonymousRoute logic to handle dynamic parameters
+  const isAnonymousRoute = anonymousRoutes.some(route => {
+    const pathWithoutParams = route.path.split('/:')[0];
+    return location.pathname.startsWith(pathWithoutParams);
+  });
 
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-        {loggedIn && (
+      <>
+        {/* Render SideMenu and AppNavbar only for logged-in users and not on anonymous routes */}
+        {loggedIn && !isAnonymousRoute && (
           <>
             <SideMenu />
             <AppNavbar />
@@ -55,7 +61,7 @@ const App = () => {
           sx={{
             flexGrow: 1,
             overflow: 'auto',
-            ml: loggedIn ? '240px' : '0', 
+            ml: loggedIn && !isAnonymousRoute ? '240px' : '0', // Adjust margin-left if SideMenu is hidden
             p: 2 
           }}
         >
@@ -68,23 +74,23 @@ const App = () => {
               mt: { xs: 8, md: 0 },
             }}
           >
-            {loggedIn && <Header sx={{ mt: 0, pt: 0 }} />}
+            {/* Render Header only for logged-in users and not on anonymous routes */}
+            {loggedIn && !isAnonymousRoute && <Header sx={{ mt: 0, pt: 0 }} />}
+            
             <Routes>
+              {/* Include common routes */}
               {commonRoutes.map(({ path, element }) => (
                 <Route key={path} path={path} element={element} />
               ))}
-            </Routes>
-            {/* Render anonymous routes without theme */}
-            <Routes>
-              {annonymousRoutes.map(({ path, element }) => (
+              {/* Include anonymous routes */}
+              {anonymousRoutes.map(({ path, element }) => (
                 <Route key={path} path={path} element={element} />
               ))}
             </Routes>
           </Stack>
-
         </Box>
-      </Router>
-      
+        
+      </>
     </ThemeProvider>
   );
 };
@@ -112,8 +118,13 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-export default () => (
+// Root component wrapping the App in a Router
+const Root = () => (
   <ErrorBoundary>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </ErrorBoundary>
 );
+
+export default Root;

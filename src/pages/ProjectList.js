@@ -5,6 +5,9 @@ import projectService from '../services/projectService'; // Assuming you have a 
 import axios from 'axios'; // Import axios for sending API requests
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import ScurveIcon from '@mui/icons-material/ShowChart';
+import CheckIcon from '@mui/icons-material/Check'; // Import an icon for activation
+import CloseIcon from '@mui/icons-material/Close'; // Import an icon for deactivation
+import VisibilityIcon from '@mui/icons-material/Visibility'; // Import the eye icon
 
 const ProjectList = () => {
   const [projects, setProjects] = useState([]); // Store all projects
@@ -38,7 +41,7 @@ const ProjectList = () => {
     const newStatus = !currentStatus;
 
     try {
-      const response = await axios.patch(`${process.env.BE_URL}/projects/${id}/${newStatus}`);
+      const response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/projects/${id}/${newStatus}`);
       if (response.status === 200) {
         setProjects(prevProjects => 
           prevProjects.map(project =>
@@ -52,21 +55,21 @@ const ProjectList = () => {
   };
 
   const columns = [
-    {
-      field: 'S-Curve',
-      headerName: 'S-Curve',
-      flex: 1,
-      minWidth: 70,
-      renderCell: (params) => (
-        <IconButton
-          aria-label="s-curve"
-          onClick={() => window.open(`/project/${params.id}/s-curve`, '_blank')} // Opens the link in a new tab
-          size="small"
-        >
-          <ScurveIcon fontSize="small" />
-        </IconButton>
-      ),
-    },
+    // {
+    //   field: 'S-Curve',
+    //   headerName: 'S-Curve',
+    //   flex: 1,
+    //   minWidth: 70,
+    //   renderCell: (params) => (
+    //     <IconButton
+    //       aria-label="s-curve"
+    //       onClick={() => window.open(`/project/${params.id}/s-curve`, '_blank')} // Opens the link in a new tab
+    //       size="small"
+    //     >
+    //       <ScurveIcon fontSize="small" />
+    //     </IconButton>
+    //   ),
+    // },
     { field: 'id', headerName: 'ID', flex: 1, minWidth: 50 },
     { field: 'project_name', headerName: 'Project Name', flex: 1, minWidth: 150 },
     { field: 'start_date', headerName: 'Start Date', flex: 1, minWidth: 90 },
@@ -79,29 +82,30 @@ const ProjectList = () => {
       flex: 1,
       minWidth: 150,
       renderCell: (params) => (
-        <Button
-          variant="contained"
-          color={params.row.status ? 'secondary' : 'primary'}
-          onClick={() => handleToggleProject(params.row.id, params.row.status)}
-          size='small'
-        >
-          {params.row.status ? 'Deactivate' : 'Activate'}
-        </Button>
-      ),
-    },
-    {
-      field: ' ',
-      headerName: ' ',
-      flex: 1,
-      minWidth: 150,
-      renderCell: (params) => (
-        <Button
-          variant="outlined"
-          onClick={() => navigate(`/tasks/project/${params.row.id}`)}
-          size='small'
-        >
-          View
-        </Button>
+        <>
+          <IconButton
+            aria-label="s-curve"
+            onClick={() => window.open(`/project/s-curve/${params.id}`, '_blank')} // Opens the link in a new tab
+            size="small"
+          >
+            <ScurveIcon fontSize="small" />
+          </IconButton>
+          <IconButton
+            color={params.row.status ? 'success' : 'error'} // Green for active, red for deactivate
+            onClick={() => handleToggleProject(params.row.id, params.row.status)}
+            size='small'
+            aria-label={params.row.status ? 'Deactivate' : 'Activate'}
+          >
+            {params.row.status ? <CheckIcon /> : <CloseIcon />}
+          </IconButton>
+          <IconButton
+            aria-label="view"
+            onClick={() => navigate(`/tasks/project/${params.row.id}`)}
+            size='small'
+          >
+            <VisibilityIcon />
+          </IconButton>
+        </>
       ),
     },
   ];
@@ -116,13 +120,21 @@ const ProjectList = () => {
   }));
 
   const paginationModel = { pageSize: 5, page: 0 };
+  const initialState = {
+    pagination: { paginationModel },
+    sorting: {
+      sortModel: [
+        { field: 'id', sort: 'asc' }, // Sort by id in ascending order by default
+      ],
+    },
+  };
 
   return (
     <Paper sx={{ height: 'calc(81vh - 0px)', width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}
-        initialState={{ pagination: { paginationModel } }}
+        initialState={initialState} // Use the modified initialState
         pageSizeOptions={[5, 10]}
         checkboxSelection
         sx={{ border: 0 }}
