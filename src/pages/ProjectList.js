@@ -8,6 +8,7 @@ import ScurveIcon from '@mui/icons-material/ShowChart';
 import CheckIcon from '@mui/icons-material/Check'; // Import an icon for activation
 import CloseIcon from '@mui/icons-material/Close'; // Import an icon for deactivation
 import VisibilityIcon from '@mui/icons-material/Visibility'; // Import the eye icon
+import dayjs from 'dayjs';
 
 const ProjectList = () => {
   const [projects, setProjects] = useState([]); // Store all projects
@@ -70,12 +71,15 @@ const ProjectList = () => {
     //     </IconButton>
     //   ),
     // },
-    { field: 'id', headerName: 'ID', flex: 1, minWidth: 50 },
-    { field: 'project_name', headerName: 'Project Name', flex: 1, minWidth: 150 },
-    { field: 'start_date', headerName: 'Start Date', flex: 1, minWidth: 90 },
-    { field: 'due_date', headerName: 'Due Date', flex: 1, minWidth: 90 },
+    { field: 'id', headerName: 'ID', flex: 1, minWidth: 30 },
+    { field: 'project_name', headerName: 'Project Name', flex: 4, minWidth: 150 },
+    { field: 'start_date', headerName: 'Start Date', flex: 1, minWidth: 90, 
+      valueFormatter: (params) => dayjs(params.value).format('YYYY-MM-DD') },
+    { field: 'due_date', headerName: 'Due Date', flex: 1, minWidth: 90, 
+      valueFormatter: (params) => dayjs(params.value).format('YYYY-MM-DD') },
     { field: 'status', headerName: 'Status', flex: 1, minWidth: 90 },
-    { field: 'createdAt', headerName: 'Created At', flex: 1, minWidth: 150 },
+    { field: 'createdAt', headerName: 'Created At', flex: 1, minWidth: 150, 
+      valueFormatter: (params) => dayjs(params.value).format('YYYY-MM-DD') },
     {
       field: 'action',
       headerName: 'Action',
