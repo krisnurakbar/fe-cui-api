@@ -28,6 +28,10 @@ const projectCreate = (data) => {
   return api.post('/', data);
 };
 
+const syncProject = (id) => {
+  return api.get(`/${id}/sync-tasks-manual`);
+};
+
 export default {
   getProjects,
   updateProject,
@@ -35,4 +39,6 @@ export default {
   deleteProject,
   projectProgress,
   projectCreate,
+  syncProject,
 };
+

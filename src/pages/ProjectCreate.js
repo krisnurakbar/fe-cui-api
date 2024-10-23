@@ -76,21 +76,21 @@ const ProjectCreate = ({ open, onClose }) => {
             <input type="hidden" value={modifiedBy} />
             <TextField
               label="Start Date"
-              type="datetime-local"
+              type="date"
               value={startDate}
               onChange={(event) => setStartDate(event.target.value)}
               fullWidth
               margin="normal"
-              InputLabelProps={{ shrink: true }} // add this line
+              InputLabelProps={{ shrink: true, format: 'YYYY-MM-DD', }} // add this line
             />
             <TextField
               label="Due Date"
-              type="datetime-local"
+              type="date"
               value={dueDate}
               onChange={(event) => setDueDate(event.target.value)}
               fullWidth
               margin="normal"
-              InputLabelProps={{ shrink: true }} // add this line
+              InputLabelProps={{ shrink: true, format: 'YYYY-MM-DD', }} // add this line
             />
             {/* <FormControlLabel
               control={

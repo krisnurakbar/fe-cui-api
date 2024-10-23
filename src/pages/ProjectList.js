@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import ProjectCreate from './ProjectCreate';
 import OptionsMenuProject from '../components/OptionsMenuProject';
 import Snackbar from '@mui/material/Snackbar';
+import OptionsMenuSyncProject from '../components/OptionsMenuSyncProject';
 
 const ProjectList = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -81,6 +82,7 @@ const ProjectList = () => {
     //   ),
     // },
     { field: 'id', headerName: 'ID', flex: 1, minWidth: 10 },
+    { field: 'cuProjectId', headerName: 'CU Project ID', flex: 3, minWidth: 150 },
     { field: 'project_name', headerName: 'Project Name', flex: 3, minWidth: 150 },
     { field: 'start_date', headerName: 'Start Date', flex: 1, minWidth: 90, 
       valueFormatter: (params) => dayjs(params.value).format('YYYY-MM-DD') },
@@ -113,6 +115,7 @@ const ProjectList = () => {
       minWidth: 150,
       renderCell: (params) => (
         <>
+          <OptionsMenuSyncProject params={params} />
           <OptionsMenuProject params={params} />
           {/* <IconButton
             aria-label="s-curve"
@@ -135,6 +138,7 @@ const ProjectList = () => {
 
   const rows = filteredProjects.map(project => ({
     id: project.id,
+    cuProjectId: project.cu_project_id,
     project_name: project.project_name,
     start_date: project.start_date,
     due_date: project.due_date,
