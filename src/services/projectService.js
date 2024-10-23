@@ -24,10 +24,15 @@ const projectProgress = (id) => {
   return api.get(`/${id}/progress`);
 };
 
+const projectCreate = (data) => {
+  return api.post('/', data);
+};
+
 export default {
   getProjects,
   updateProject,
   updateStatusProject,
   deleteProject,
   projectProgress,
+  projectCreate,
 };

@@ -9,11 +9,17 @@ import CheckIcon from '@mui/icons-material/Check'; // Import an icon for activat
 import CloseIcon from '@mui/icons-material/Close'; // Import an icon for deactivation
 import VisibilityIcon from '@mui/icons-material/Visibility'; // Import the eye icon
 import dayjs from 'dayjs';
+import ProjectCreate from './ProjectCreate';
+import OptionsMenuProject from '../components/OptionsMenuProject';
+import Snackbar from '@mui/material/Snackbar';
 
 const ProjectList = () => {
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [projects, setProjects] = useState([]); // Store all projects
   const [filteredProjects, setFilteredProjects] = useState([]); // Store filtered projects
   const navigate = useNavigate(); // Initialize the useNavigate hook
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,20 +44,23 @@ const ProjectList = () => {
     }
   }, [projects]); // Run filtering when projects change
 
-  const handleToggleProject = async (id, currentStatus) => {
+  const handleToggleProject = async (id, currentStatus, project_name) => {
     const newStatus = !currentStatus;
-
+  
     try {
       const response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/projects/${id}/${newStatus}`);
       if (response.status === 200) {
-        setProjects(prevProjects => 
+        setProjects(prevProjects =>
           prevProjects.map(project =>
             project.id === id ? { ...project, status: newStatus } : project
           )
         );
+        setSnackbarMessage(`Project ${project_name} status updated to ${newStatus ? 'active' : 'inactive'}`);
+        setOpenSnackbar(true);
       }
     } catch (error) {
-      console.error(`Error updating project ID:${id} - New Status: ${newStatus}`, error);
+      setSnackbarMessage(`Error updating project ${project_name} status: ${error.message}`);
+      setOpenSnackbar(true);
     }
   };
 
@@ -71,15 +80,32 @@ const ProjectList = () => {
     //     </IconButton>
     //   ),
     // },
-    { field: 'id', headerName: 'ID', flex: 1, minWidth: 30 },
-    { field: 'project_name', headerName: 'Project Name', flex: 4, minWidth: 150 },
+    { field: 'id', headerName: 'ID', flex: 1, minWidth: 10 },
+    { field: 'project_name', headerName: 'Project Name', flex: 3, minWidth: 150 },
     { field: 'start_date', headerName: 'Start Date', flex: 1, minWidth: 90, 
       valueFormatter: (params) => dayjs(params.value).format('YYYY-MM-DD') },
     { field: 'due_date', headerName: 'Due Date', flex: 1, minWidth: 90, 
       valueFormatter: (params) => dayjs(params.value).format('YYYY-MM-DD') },
-    { field: 'status', headerName: 'Status', flex: 1, minWidth: 90 },
     { field: 'createdAt', headerName: 'Created At', flex: 1, minWidth: 150, 
       valueFormatter: (params) => dayjs(params.value).format('YYYY-MM-DD') },
+    {
+      field: 'status',
+      headerName: 'Status',
+      flex: 1,
+      minWidth: 50,
+      renderCell: (params) => (
+        <>
+          <IconButton
+            color={params.row.status ? 'success' : 'error'} // Green for active, red for deactivate
+            onClick={() => handleToggleProject(params.row.id, params.row.status, params.row.project_name)}
+            size='small'
+            aria-label={params.row.status ? 'Deactivate' : 'Activate'}
+          >
+            {params.row.status ? <CheckIcon /> : <CloseIcon />}
+          </IconButton>
+        </>
+      ),
+    },
     {
       field: 'action',
       headerName: 'Action',
@@ -87,21 +113,14 @@ const ProjectList = () => {
       minWidth: 150,
       renderCell: (params) => (
         <>
-          <IconButton
+          <OptionsMenuProject params={params} />
+          {/* <IconButton
             aria-label="s-curve"
             onClick={() => window.open(`/project/s-curve/${params.id}`, '_blank')} // Opens the link in a new tab
             size="small"
           >
             <ScurveIcon fontSize="small" />
-          </IconButton>
-          <IconButton
-            color={params.row.status ? 'success' : 'error'} // Green for active, red for deactivate
-            onClick={() => handleToggleProject(params.row.id, params.row.status)}
-            size='small'
-            aria-label={params.row.status ? 'Deactivate' : 'Activate'}
-          >
-            {params.row.status ? <CheckIcon /> : <CloseIcon />}
-          </IconButton>
+          </IconButton> */}
           <IconButton
             aria-label="view"
             onClick={() => navigate(`/tasks/project/${params.row.id}`)}
@@ -135,15 +154,35 @@ const ProjectList = () => {
 
   return (
     <Paper sx={{ height: 'calc(81vh - 0px)', width: '100%' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20, paddingRight: 20, paddingTop: 20 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setOpenDrawer(true)}
+          size='small'
+        >
+          Add New
+        </Button>
+      </div>
+      
       <DataGrid
         rows={rows}
         columns={columns}
         initialState={initialState} // Use the modified initialState
         pageSizeOptions={[5, 10]}
-        checkboxSelection
+        // checkboxSelection
         sx={{ border: 0 }}
       />
+      <ProjectCreate />
+      <ProjectCreate open={openDrawer} onClose={() => setOpenDrawer(false)} />
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={() => setOpenSnackbar(false)}
+        message={snackbarMessage}
+      />
     </Paper>
+    
   );
 };
 

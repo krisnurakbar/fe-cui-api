@@ -18,6 +18,7 @@ import './App.css';
 import AppNavbar from './components/AppNavbar';
 import SideMenu from './components/SideMenu';
 import { Box, Stack } from '@mui/material';
+import ProjectCreate from './pages/ProjectCreate';
 
 const App = () => {
   const loggedIn = isLoggedIn();
@@ -33,6 +34,7 @@ const App = () => {
     { path: "/", element: loggedIn ? <Navigate to="/dashboard" /> : <Home /> },
     { path: "/tasks", element: loggedIn ? <TaskList /> : <Navigate to="/login" /> },
     { path: "/tasks/project/:project_id", element: loggedIn ? <ProjectTaskList /> : <Navigate to="/login" /> },
+    { path: "/projects/create", element: loggedIn ? <ProjectCreate /> : <Navigate to="/login" /> },
   ];
 
   const anonymousRoutes = [
