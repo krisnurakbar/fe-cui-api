@@ -73,7 +73,7 @@ const OptionsMenuProject = ({ params }) => {
         </MenuItem>
         <MenuItem
         onClick={() => {
-            const url = `${process.env.REACT_APP_API_BASE_URL}/project/s-curve/${params.id}`;
+            const url = `${process.env.DOMAIN}/project/s-curve/${params.id}`;
             navigator.clipboard.writeText(url);
             alert('Link copied to clipboard!');
         }}

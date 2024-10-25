@@ -120,7 +120,7 @@ const OptionsMenuSyncProject = ({ params }) => {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            const url = `${process.env.REACT_APP_API_BASE_URL}/api/task/webhook?project_id=${params.id}&cu_task_id=`;
+            const url = `${process.env.DOMAIN}/api/task/webhook?project_id=${params.id}&cu_task_id=`;
             navigator.clipboard.writeText(url);
             alert('Link copied to clipboard!');
           }}
