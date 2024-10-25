@@ -14,6 +14,7 @@ import SyncIcon from '@mui/icons-material/Sync';
 import projectService from '../services/projectService';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 
+
 const MenuItem = styled(MuiMenuItem)({
   margin: '2px 0',
 });
@@ -120,7 +121,7 @@ const OptionsMenuSyncProject = ({ params }) => {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            const url = `${process.env.DOMAIN}/api/task/webhook?project_id=${params.id}&cu_task_id=`;
+            const url = `${process.env.REACT_APP_DOMAIN}/api/task/webhook?project_id=${params.id}&cu_task_id=`;
             navigator.clipboard.writeText(url);
             alert('Link copied to clipboard!');
           }}
