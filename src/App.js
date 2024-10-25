@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useLocation, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './components/theme/themePrimitives';
 import Login from './pages/Login';
@@ -10,7 +10,6 @@ import TaskList from './pages/TaskList';
 import ProjectTaskList from './pages/ProjectTaskList';
 import Scurve from './pages/Scurve';
 import Header from './components/Header';
-import Footer from './components/Footer';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import { isLoggedIn } from './utils/auth';
@@ -61,18 +60,22 @@ const App = () => {
         <Box
           component="main"
           sx={{
-            flexGrow: 1,
+            flexGrow: 1, // Allow the Box to grow and fill the available space
             overflow: 'auto',
-            ml: loggedIn && !isAnonymousRoute ? '240px' : '0', // Adjust margin-left if SideMenu is hidden
-            p: 2 
+            ml: loggedIn && !isAnonymousRoute ? '240px' : '0',
+            pl: 2,
+            pr: 2,
+            height: '100vh', // Full viewport height
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <Stack
-            spacing={2}
+            spacing={1}
             sx={{
               alignItems: 'center',
               mx: 1,
-              pb: 5,
+              pb: 1,
               mt: { xs: 8, md: 0 },
             }}
           >
@@ -91,7 +94,6 @@ const App = () => {
             </Routes>
           </Stack>
         </Box>
-        
       </>
     </ThemeProvider>
   );

@@ -29,9 +29,13 @@ const Scurve = () => {
 
         // Extract data for the chart in one mapping and sort by report_date
         const chartData = progressData.map(item => ({
-          reportDate: dayjs(item.report_date).format('YYYY-MM-DD'),
-          planProgress: item.plan_progress || 0,
-          actualProgress: item.actual_progress !== undefined ? item.actual_progress : null,
+          reportDate: item.report_date || '',
+          planProgress: item.plan_progress
+            ? parseFloat(item.plan_progress.toString().replace('%', '')) // Ensure plan_progress is a string before using replace
+            : 0, // Default to 0 if plan_progress is null or undefined
+          actualProgress: item.actual_progress !== undefined && item.actual_progress !== null
+            ? parseFloat(item.actual_progress.toString().replace('%', '')) // Ensure actual_progress is a string before using replace
+            : null, // Default to null if actual_progress is missing
           week_no: item.week_no || 0,
         }));
 

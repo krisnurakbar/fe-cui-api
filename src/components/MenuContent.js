@@ -14,6 +14,7 @@ import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
 import { Divider } from '@mui/material';
+import { useState } from 'react';
 
 const mainListItems = [
   { text: 'Home', icon: <HomeRoundedIcon />, link: '/' },
@@ -29,12 +30,25 @@ export default function MenuContent() {
   // Retrieve userRole from local storage
   const userRole = localStorage.getItem('userRole'); // Adjust the key based on your setup
 
+  // State to keep track of the selected index
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  const handleListItemClick = (index) => {
+    setSelectedIndex(index);
+  };
+
+
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
       <List dense>
         {mainListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton component={Link} to={item.link} selected={index === 0}>
+            <ListItemButton
+              component={Link}
+              to={item.link}
+              selected={selectedIndex === index}
+              onClick={() => handleListItemClick(index)}
+            >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
@@ -49,12 +63,17 @@ export default function MenuContent() {
             <ListItemText primary="Master" /> {/* Add "Master" text here */}
           </ListItem>
           {secondaryListItems.map((item, index) => (
-            <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton component={Link} to={item.link}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
-              </ListItemButton>
-            </ListItem>
+            <ListItem key={index + mainListItems.length} disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              component={Link}
+              to={item.link}
+              selected={selectedIndex === index + mainListItems.length}
+              onClick={() => handleListItemClick(index + mainListItems.length)}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItemButton>
+          </ListItem>
           ))}
         </List>
       )}

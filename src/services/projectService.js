@@ -32,6 +32,10 @@ const syncProject = (id) => {
   return api.get(`/${id}/sync-tasks-manual`);
 };
 
+const syncPlanProgressManual = (id) => {
+  return api.get(`/${id}/plan-progress`);
+};
+
 export default {
   getProjects,
   updateProject,
@@ -40,5 +44,6 @@ export default {
   projectProgress,
   projectCreate,
   syncProject,
+  syncPlanProgressManual,
 };
 

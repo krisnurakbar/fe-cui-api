@@ -158,12 +158,13 @@ const ProjectList = () => {
 
   return (
     <Paper sx={{ height: 'calc(81vh - 0px)', width: '100%' }}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20, paddingRight: 20, paddingTop: 20 }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end'}}>
         <Button
           variant="contained"
           color="primary"
           onClick={() => setOpenDrawer(true)}
           size='small'
+          sx={{ m: 2 }}
         >
           Add New
         </Button>
@@ -173,7 +174,7 @@ const ProjectList = () => {
         rows={rows}
         columns={columns}
         initialState={initialState} // Use the modified initialState
-        pageSizeOptions={[5, 10]}
+        autoPageSize
         // checkboxSelection
         sx={{ border: 0 }}
       />
