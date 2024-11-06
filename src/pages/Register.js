@@ -34,7 +34,17 @@ const Register = () => {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 8 }}>
+    <Container
+      maxWidth="sm"
+      sx={{ 
+        mt: 8,
+        display: 'flex',
+        flexDirection: 'column', 
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh' // Ensure the Container takes the full height of the viewport
+      }}
+    >
       <Typography variant="h4" component="h1" gutterBottom>
         Register
       </Typography>
