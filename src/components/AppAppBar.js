@@ -44,6 +44,10 @@ export default function AppAppBar() {
     navigate('/login'); // Navigates to the login page
   };
 
+  const handleSignUp = () => {
+    navigate('/register'); // Navigates to the login page
+  };
+
   return (
     <AppBar
       position="fixed"
@@ -104,7 +108,7 @@ export default function AppAppBar() {
                 {/* <MenuItem>Features</MenuItem>
                 <MenuItem>Highlights</MenuItem> */}
                 <MenuItem>
-                  <Button color="primary" variant="contained" fullWidth>
+                  <Button color="primary" onClick={handleSignUp} variant="contained" fullWidth>
                     Register
                   </Button>
                 </MenuItem>
