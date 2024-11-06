@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Paper, Button, IconButton } from '@mui/material';
+import { Paper, Button, IconButton, CircularProgress, Snackbar, Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import projectService from '../services/projectService'; // Assuming you have a projectService for API calls
 import axios from 'axios'; // Import axios for sending API requests
@@ -11,13 +11,13 @@ import VisibilityIcon from '@mui/icons-material/Visibility'; // Import the eye i
 import dayjs from 'dayjs';
 import ProjectCreate from './ProjectCreate';
 import OptionsMenuProject from '../components/OptionsMenuProject';
-import Snackbar from '@mui/material/Snackbar';
 import OptionsMenuSyncProject from '../components/OptionsMenuSyncProject';
 
 const ProjectList = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [projects, setProjects] = useState([]); // Store all projects
   const [filteredProjects, setFilteredProjects] = useState([]); // Store filtered projects
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate(); // Initialize the useNavigate hook
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState('');
@@ -29,6 +29,8 @@ const ProjectList = () => {
         setProjects(response.data || []); // Ensure it defaults to an empty array if undefined
       } catch (error) {
         console.error('Error fetching projects:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -66,21 +68,6 @@ const ProjectList = () => {
   };
 
   const columns = [
-    // {
-    //   field: 'S-Curve',
-    //   headerName: 'S-Curve',
-    //   flex: 1,
-    //   minWidth: 70,
-    //   renderCell: (params) => (
-    //     <IconButton
-    //       aria-label="s-curve"
-    //       onClick={() => window.open(`/project/${params.id}/s-curve`, '_blank')} // Opens the link in a new tab
-    //       size="small"
-    //     >
-    //       <ScurveIcon fontSize="small" />
-    //     </IconButton>
-    //   ),
-    // },
     { field: 'id', headerName: 'ID', flex: 1, minWidth: 10 },
     { field: 'cuProjectId', headerName: 'CU Project ID', flex: 3, minWidth: 150 },
     { field: 'project_name', headerName: 'Project Name', flex: 3, minWidth: 150 },
@@ -117,13 +104,6 @@ const ProjectList = () => {
         <>
           <OptionsMenuSyncProject params={params} />
           <OptionsMenuProject params={params} />
-          {/* <IconButton
-            aria-label="s-curve"
-            onClick={() => window.open(`/project/s-curve/${params.id}`, '_blank')} // Opens the link in a new tab
-            size="small"
-          >
-            <ScurveIcon fontSize="small" />
-          </IconButton> */}
           <IconButton
             aria-label="view"
             onClick={() => navigate(`/tasks/project/${params.row.id}`)}
@@ -156,6 +136,21 @@ const ProjectList = () => {
     },
   };
 
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
     <Paper sx={{ height: 'calc(81vh - 0px)', width: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'flex-end'}}>
@@ -175,7 +170,6 @@ const ProjectList = () => {
         columns={columns}
         initialState={initialState} // Use the modified initialState
         autoPageSize
-        // checkboxSelection
         sx={{ border: 0 }}
       />
       <ProjectCreate />
@@ -187,8 +181,8 @@ const ProjectList = () => {
         message={snackbarMessage}
       />
     </Paper>
-    
   );
 };
 
 export default ProjectList;
+

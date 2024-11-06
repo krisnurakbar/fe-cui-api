@@ -39,28 +39,36 @@ const ProjectCreate = ({ open, onClose }) => {
   return (
     <div>
       <Drawer
-        anchor="right"
-        open={open}
-        onClose={onClose}
-        variant="temporary"  // Ensure this is a temporary drawer for custom positioning
-        PaperProps={{
-          sx: {
-            width: '30%',  // Set the drawer width to 30% of the screen
-            position: 'fixed',  // Use fixed positioning to align relative to the viewport
-            bottom: 0,  // Keep the drawer at the bottom
-            transform: 'none',  // Disable default Drawer transform behavior
-            maxWidth: 'none',  // Remove default maxWidth limit
-            borderTopLeftRadius: 10,
-            borderBottomLeftRadius: 10,
-          },
-        }}
-      >
+          anchor="right"
+          open={open}
+          onClose={onClose}
+          variant="temporary"
+          PaperProps={{
+            sx: {
+              width: '30%',
+              position: 'fixed',
+              bottom: 0,
+              transform: 'none',
+              maxWidth: 'none',
+              borderTopLeftRadius: 10,
+              borderBottomLeftRadius: 10,
+              borderTopRightRadius: 10,
+              borderBottomRightRadius: 10,
+              marginRight: 2,
+              marginTop: 1,
+              marginBottom: 1,
+              overflowY: 'auto', // Ensures the drawer is scrollable
+              maxHeight: '97vh', // Set max height for scrolling to activate
+            },
+          }}
+        >
         <Box sx={{ p: 2 }}>
         <div style={{ padding: 20 }}>
           <h2>Create New Project</h2>
           <form onSubmit={handleSubmit}>
             <TextField
               label="Project Name"
+              size='small'
               value={projectName}
               onChange={(event) => setProjectName(event.target.value)}
               fullWidth
@@ -68,6 +76,7 @@ const ProjectCreate = ({ open, onClose }) => {
             />
             <TextField
               label="CU Project ID"
+              size='small'
               value={cuProjectId}
               onChange={(event) => setCuProjectId(event.target.value)}
               fullWidth
@@ -76,6 +85,7 @@ const ProjectCreate = ({ open, onClose }) => {
             <input type="hidden" value={modifiedBy} />
             <TextField
               label="Start Date"
+              size='small'
               type="date"
               value={startDate}
               onChange={(event) => setStartDate(event.target.value)}
@@ -85,6 +95,7 @@ const ProjectCreate = ({ open, onClose }) => {
             />
             <TextField
               label="Due Date"
+              size='small'
               type="date"
               value={dueDate}
               onChange={(event) => setDueDate(event.target.value)}
