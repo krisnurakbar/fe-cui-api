@@ -74,7 +74,7 @@ export default function Hero() {
               fontSize: 'clamp(3rem, 10vw, 3.5rem)',
             }}
           >
-            Our&nbsp;latest&nbsp;
+            Welcome &nbsp;to&nbsp;
             <Typography
               component="span"
               variant="h1"
@@ -86,7 +86,7 @@ export default function Hero() {
                 }),
               })}
             >
-              products
+              ClickUp+
             </Typography>
           </Typography>
           <Typography
@@ -96,9 +96,7 @@ export default function Hero() {
               width: { sm: '100%', md: '80%' },
             }}
           >
-            Explore our cutting-edge dashboard, delivering high-quality solutions
-            tailored to your needs. Elevate your experience with top-tier features
-            and services.
+            ClickUp+ is an extended module that integrate with ClickUp to create complex module that ClickUp can not provide.
           </Typography>
           
         </Stack>
