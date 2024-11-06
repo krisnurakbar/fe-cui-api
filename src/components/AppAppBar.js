@@ -83,7 +83,7 @@ export default function AppAppBar() {
             <Button color="primary" variant="text" size="small" onClick={handleGetStarted}>
               Log in
             </Button>
-            <Button color="primary" variant="contained" size="small">
+            <Button color="primary" variant="contained" size="small" onClick={handleSignUp}>
               Register
             </Button>
           </Box>
