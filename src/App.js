@@ -9,6 +9,7 @@ import ProjectList from './pages/ProjectList';
 import TaskList from './pages/TaskList';
 import ProjectTaskList from './pages/ProjectTaskList';
 import Scurve from './pages/Scurve';
+import ScurveCost from './pages/ScurveCost';
 import Header from './components/Header';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
@@ -38,6 +39,7 @@ const App = () => {
 
   const anonymousRoutes = [
     { path: "/project/s-curve/:projectId", element: <Scurve /> },
+    { path: "/project/s-curve-cost/:projectId", element: <ScurveCost /> },
   ];
 
   // Updated isAnonymousRoute logic to handle dynamic parameters

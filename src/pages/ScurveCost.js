@@ -9,7 +9,10 @@ const Scurve = () => {
   const [chartData, setChartData] = useState({
     reportDates: [],
     planProgress: [],
-    actualProgress: []
+    actualProgress: [],
+    planCost: [],
+    actualCost: [],
+    week_no: [],
   });
 
   useEffect(() => {
@@ -32,11 +35,13 @@ const Scurve = () => {
           reportDate: item.report_date || '',
           planProgress: item.plan_progress
             ? parseFloat(item.plan_progress.toString().replace('%', '')) // Ensure plan_progress is a string before using replace
-            : 0, // Default to 0 if plan_progress is null or undefined
+            : null, // Default to 0 if plan_progress is null or undefined
           actualProgress: item.actual_progress !== undefined && item.actual_progress !== null
             ? parseFloat(item.actual_progress.toString().replace('%', '')) // Ensure actual_progress is a string before using replace
             : null, // Default to null if actual_progress is missing
-          week_no: item.week_no || 0,
+          planCost: item.plan_cost || null,
+          actualCost: item.actual_cost || null,
+          week_no: item.week_no || null,
         }));
 
         // Sort the data by reportDate in ascending order
@@ -46,10 +51,12 @@ const Scurve = () => {
         const reportDates = chartData.map(item => item.reportDate);
         const planProgress = chartData.map(item => item.planProgress);
         const actualProgress = chartData.map(item => item.actualProgress);
+        const planCost = chartData.map(item => item.planCost);
+        const actualCost = chartData.map(item => item.actualCost);
         const week_no = chartData.map(item => item.week_no);
 
-        setChartData({ reportDates, planProgress, actualProgress, week_no });
-        console.log('Data set successfully in state:', { reportDates, planProgress, actualProgress, week_no });
+        setChartData({ reportDates, planProgress, actualProgress, planCost, actualCost, week_no });
+        console.log('Data set successfully in state:', { reportDates, planProgress, actualProgress, planCost, actualCost, week_no });
       } catch (error) {
         console.error('Error fetching project progress data:', error);
       }
@@ -61,7 +68,7 @@ const Scurve = () => {
     }
   }, [projectId]); // Re-fetch data if projectId changes
 
-  const { reportDates, planProgress, actualProgress, week_no } = chartData;
+  const { reportDates, planProgress, actualProgress, planCost, actualCost, week_no } = chartData;
 
   return (
     <div style={{ height: 'calc(81vh - 0px)', width: "100%" }}>
@@ -78,8 +85,8 @@ const Scurve = () => {
             }
           }}
           series={[
-            { label: 'Planned Progress (%)', data: planProgress, color: 'red' },
-            { label: 'Actual Progress (%)', data: actualProgress, color: 'green' },
+            { label: 'Planned Cost (Rp)', data: planCost, color: 'red' },
+            { label: 'Actual Cost (Rp)', data: actualCost, color: 'green' },
           ]}
           xAxis={[
             {

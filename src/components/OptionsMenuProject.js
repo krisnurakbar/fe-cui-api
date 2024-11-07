@@ -69,7 +69,16 @@ const OptionsMenuProject = ({ params }) => {
           <ListItemIcon>
             <VisibilityIcon />
           </ListItemIcon>
-          View S-Curve
+          View S-Curve Progress
+        </MenuItem>
+        <MenuItem onClick={() => {
+            const url = `/project/s-curve-cost/${params.id}`;
+            window.open(url, '_blank');
+        }}>
+          <ListItemIcon>
+            <VisibilityIcon />
+          </ListItemIcon>
+          View S-Curve Cost
         </MenuItem>
         <MenuItem
         onClick={() => {
