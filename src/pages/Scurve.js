@@ -69,7 +69,6 @@ const Scurve = () => {
       <div style={{ height: 'calc(100vh - 170px)', width: "100%", overflow: "hidden"}}>
         
         <LineChart
-          margin={{ left: 0 }}
           slotProps={{
             legend: {
               direction: 'row',
