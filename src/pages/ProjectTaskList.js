@@ -178,6 +178,8 @@ const ProgressPage = ({ project_id, onEdit }) => {
     { field: 'actual_progress', headerName: 'Actual Progress', flex: 1, minWidth: 120, type: 'number' },
     { field: 'plan_cost', headerName: 'Plan Cost', flex: 1, minWidth: 120 },
     { field: 'actual_cost', headerName: 'Actual Cost', flex: 1, minWidth: 120 },
+    { field: 'plan_value', headerName: 'Plan Value', flex: 1, minWidth: 120 },
+    { field: 'actual_value', headerName: 'Actual Value', flex: 1, minWidth: 120 },
     { field: 'spi', headerName: 'SPI', flex: 1, minWidth: 100 },
     { field: 'cpi', headerName: 'CPI', flex: 1, minWidth: 100 },
     { field: 'created_by', headerName: 'Created By', flex: 1, minWidth: 150 },

@@ -80,6 +80,15 @@ const OptionsMenuProject = ({ params }) => {
           </ListItemIcon>
           View S-Curve Cost
         </MenuItem>
+        <MenuItem onClick={() => {
+            const url = `/project/s-curve-value/${params.id}`;
+            window.open(url, '_blank');
+        }}>
+          <ListItemIcon>
+            <VisibilityIcon />
+          </ListItemIcon>
+          View S-Curve Value
+        </MenuItem>
         <MenuItem
         onClick={() => {
             const url = `${process.env.REACT_APP_DOMAIN}/project/s-curve/${params.id}`;

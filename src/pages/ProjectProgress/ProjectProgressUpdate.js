@@ -13,6 +13,8 @@ const ProjectProgressUpdate = ({ open, onClose, currentData }) => {
   const [cpi, setCpi] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const modifiedBy = localStorage.getItem('userEmail');
+  const [planValue, setPlanValue] = useState('');
+  const [actualValue, setActualValue] = useState('');
 
   // Update form fields when currentData changes
   useEffect(() => {
@@ -25,6 +27,8 @@ const ProjectProgressUpdate = ({ open, onClose, currentData }) => {
       setActualCost(currentData.actual_cost || '');
       setSpi(currentData.spi || '');
       setCpi(currentData.cpi || '');
+      setPlanValue(currentData.plan_value || '');
+      setActualValue(currentData.actual_value || '');
     }
   }, [currentData]);
 
@@ -43,6 +47,8 @@ const ProjectProgressUpdate = ({ open, onClose, currentData }) => {
         spi: spi,
         cpi: cpi,
         modified_by: modifiedBy,
+        plan_value: planValue,
+        actual_value: actualValue,
       });
       if (response.status === 200) {
         setOpenSnackbar(true);
@@ -153,6 +159,24 @@ const ProjectProgressUpdate = ({ open, onClose, currentData }) => {
                   size='small'
                   value={cpi}
                   onChange={(event) => setCpi(event.target.value)}
+                  fullWidth
+                  margin="normal"
+                />
+              </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+                <TextField
+                  label="Plan Value"
+                  size='small'
+                  value={planValue}
+                  onChange={(event) => setPlanValue(event.target.value)}
+                  fullWidth
+                  margin="normal"
+                />
+                <TextField
+                  label="Actual Value"
+                  size='small'
+                  value={actualValue}
+                  onChange={(event) => setActualValue(event.target.value)}
                   fullWidth
                   margin="normal"
                 />

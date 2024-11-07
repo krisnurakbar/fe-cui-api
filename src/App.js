@@ -10,6 +10,7 @@ import TaskList from './pages/TaskList';
 import ProjectTaskList from './pages/ProjectTaskList';
 import Scurve from './pages/Scurve';
 import ScurveCost from './pages/ScurveCost';
+import ScurveValue from './pages/ScurveValue';
 import Header from './components/Header';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
@@ -19,6 +20,7 @@ import AppNavbar from './components/AppNavbar';
 import SideMenu from './components/SideMenu';
 import { Box, Stack } from '@mui/material';
 import ProjectCreate from './pages/ProjectCreate';
+
 
 const App = () => {
   const loggedIn = isLoggedIn();
@@ -40,6 +42,7 @@ const App = () => {
   const anonymousRoutes = [
     { path: "/project/s-curve/:projectId", element: <Scurve /> },
     { path: "/project/s-curve-cost/:projectId", element: <ScurveCost /> },
+    { path: "/project/s-curve-value/:projectId", element: <ScurveValue /> },
   ];
 
   // Updated isAnonymousRoute logic to handle dynamic parameters

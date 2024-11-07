@@ -15,6 +15,8 @@ const ProjectProgressCreate = ({ open, onClose }) => {
   const [cpi, setCpi] = useState('0');
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const modifiedBy = localStorage.getItem('userEmail');
+  const [planValue, setPlanValue] = useState('0');
+  const [actualValue, setActualValue] = useState('0');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,6 +33,8 @@ const ProjectProgressCreate = ({ open, onClose }) => {
         spi: parseFloat(spi),
         cpi: parseFloat(cpi),
         modified_by: modifiedBy,
+        plan_value: parseFloat(planValue),
+        actual_value: parseFloat(actualValue),
       });
       if (response.status === 201) {
         setOpenSnackbar(true);
@@ -142,6 +146,24 @@ const ProjectProgressCreate = ({ open, onClose }) => {
                   size='small'
                   value={cpi}
                   onChange={(event) => setCpi(event.target.value)}
+                  fullWidth
+                  margin="normal"
+                />
+              </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+                <TextField
+                  label="Plan Value"
+                  size='small'
+                  value={planValue}
+                  onChange={(event) => setPlanValue(event.target.value)}
+                  fullWidth
+                  margin="normal"
+                />
+                <TextField
+                  label="Actual Value"
+                  size='small'
+                  value={actualValue}
+                  onChange={(event) => setActualValue(event.target.value)}
                   fullWidth
                   margin="normal"
                 />
