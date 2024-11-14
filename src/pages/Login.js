@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, TextField, Container, Typography, Link, Snackbar } from '@mui/material';
+import { Button, TextField, Container, Typography, Link, Snackbar, LinearProgress } from '@mui/material';
 import authService from '../services/authService.js'; // Importing the authentication service
 import { useNavigate } from 'react-router-dom'; // Importing useNavigate for navigation
 
@@ -8,10 +8,12 @@ const Login = () => {
   const [password, setPassword] = useState(''); // State for password
   const [openSnackbar, setOpenSnackbar] = useState(false); // State for Snackbar visibility
   const [errorMessage, setErrorMessage] = useState(''); // State for error message
+  const [loading, setLoading] = useState(false); // State for loading status
   const navigate = useNavigate(); // Hook for programmatic navigation
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
+    setLoading(true);
     try {
       const response = await authService.login({ email, password }); // Call the login service
 
@@ -38,6 +40,8 @@ const Login = () => {
       }
       
       setOpenSnackbar(true); // Show Snackbar for error
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,8 +85,14 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)} // Handle password input change
           sx={{ mb: 2 }}
         />
-        <Button variant="contained" color="primary" type="submit" fullWidth>
-          Login
+        <Button 
+          variant="contained" 
+          color="primary" 
+          type="submit" 
+          fullWidth
+          disabled={loading} // Disable button when loading
+        >
+          {loading ? <LinearProgress sx={{ width: '25px', height: '25px', borderRadius: '50%' }} /> : 'Login'}
         </Button>
       </form>
       <Typography variant="body1" sx={{ mt: 2 }}>
@@ -102,3 +112,4 @@ const Login = () => {
 };
 
 export default Login;
+
