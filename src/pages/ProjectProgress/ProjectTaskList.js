@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Paper, CircularProgress, Tabs, Tab, Box, Button, IconButton, Typography, Alert } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import taskService from '../services/taskServices';
-import projectService from '../services/projectService';
-import ProjectProgressCreate from './ProjectProgress/ProjectProgressCreate';
+import taskService from '../../services/taskServices';
+import projectService from '../../services/projectService';
+import ProjectProgressCreate from './ProjectProgressCreate';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ProjectProgressUpdate from './ProjectProgress/ProjectProgressUpdate';
-import projectProgressService from '../services/projectProgressService';
+import ProjectProgressUpdate from './ProjectProgressUpdate';
+import projectProgressService from '../../services/projectProgressService';
 
 const ProjectTasks = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -103,7 +103,42 @@ const TaskList = ({ tasks, onEdit }) => {
   const columns = [
     { field: 'id', headerName: 'ID', flex: 1, minWidth: 50 },
     { field: 'task_title', headerName: 'Task Title', flex: 2, minWidth: 180 },
-    { field: 'status', headerName: 'Status', flex: 1, minWidth: 100 },
+    {
+      field: 'task_status',
+      headerName: 'Task Status',
+      flex: 2,
+      minWidth: 180,
+      renderCell: (params) => {
+        const status = params.value;
+        let color;
+        if (status === 'planned') {
+          color = 'primary';
+        } else if (status === 'in progress') {
+          color = 'warning';
+        } else if (status === 'complete') {
+          color = 'success';
+        } else {
+          color = 'error';
+        }
+        return (
+          <Box
+            sx={{
+              display: 'inline-flex',
+              backgroundColor: (theme) => theme.palette[color].light,
+              padding: '0px 8px',
+              borderRadius: '16px',
+              height: '22px',
+              alignItems: 'center',
+              justifyContent: 'center',
+              verticalAlign: 'middle',
+            }}
+          >
+            {status}
+          </Box>
+        );
+      },
+    },
+
     { field: 'created_at', headerName: 'Created At', flex: 1, minWidth: 100 },
     { field: 'cu_task_id', headerName: 'CU Task ID', flex: 1, minWidth: 100 },
     { field: 'start_date', headerName: 'Start Date', flex: 1, minWidth: 100 },
@@ -115,6 +150,7 @@ const TaskList = ({ tasks, onEdit }) => {
     { field: 'actual_cost', headerName: 'Actual Cost', flex: 1, minWidth: 100 },
     { field: 'spi', headerName: 'SPI', flex: 1, minWidth: 50 },
     { field: 'cpi', headerName: 'CPI', flex: 1, minWidth: 50 },
+    { field: 'status', headerName: 'Status', flex: 1, minWidth: 100 },
   ];
 
   return (
@@ -237,4 +273,5 @@ const ProgressPage = ({ project_id, onEdit }) => {
 };
 
 export default ProjectTasks;
+
 

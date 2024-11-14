@@ -1,11 +1,11 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Drawer, Paper, Button, TextField, Snackbar, Box } from '@mui/material';
-import projectService from '../services/projectService';
-
+import projectService from '../../services/projectService';
 
 const ProjectCreate = ({ open, onClose }) => {
   const [projectName, setProjectName] = useState('');
   const [cuProjectId, setCuProjectId] = useState('');
+  const [projectType, setProjectType] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [dueDate, setDueDate] = useState(null);
   const [status, setStatus] = useState(true);
@@ -14,7 +14,6 @@ const ProjectCreate = ({ open, onClose }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Call API to create new project
     try {
       const response = await projectService.projectCreate({
         project_name: projectName,
@@ -22,6 +21,8 @@ const ProjectCreate = ({ open, onClose }) => {
         start_date: startDate,
         due_date: dueDate,
         modified_by: modifiedBy,
+        project_type: projectType,
+        company_id: localStorage.getItem('companyId'),
         status: status ? 1 : 0,
       });
       if (response.status === 201) {
@@ -82,6 +83,23 @@ const ProjectCreate = ({ open, onClose }) => {
               fullWidth
               margin="normal"
             />
+            <TextField
+              select
+              label="Project Type"
+              size='small'
+              value={projectType}
+              onChange={(event) => setProjectType(event.target.value)}
+              fullWidth
+              margin="normal"
+              SelectProps={{
+                shrink: true,
+                native: true,
+              }}
+            >
+              <option value=""></option>
+              <option value="New Development">New Development</option>
+              <option value="Enhancement">Enhancement</option>
+            </TextField>
             <input type="hidden" value={modifiedBy} />
             <TextField
               label="Start Date"
@@ -91,7 +109,7 @@ const ProjectCreate = ({ open, onClose }) => {
               onChange={(event) => setStartDate(event.target.value)}
               fullWidth
               margin="normal"
-              InputLabelProps={{ shrink: true, format: 'YYYY-MM-DD', }} // add this line
+              InputLabelProps={{ shrink: true, format: 'YYYY-MM-DD', }}
             />
             <TextField
               label="Due Date"
@@ -101,17 +119,8 @@ const ProjectCreate = ({ open, onClose }) => {
               onChange={(event) => setDueDate(event.target.value)}
               fullWidth
               margin="normal"
-              InputLabelProps={{ shrink: true, format: 'YYYY-MM-DD', }} // add this line
+              InputLabelProps={{ shrink: true, format: 'YYYY-MM-DD', }}
             />
-            {/* <FormControlLabel
-              control={
-                <Checkbox
-                  checked={status}
-                  onChange={(event) => setStatus(event.target.checked)}
-                />
-              }
-              label="Status"
-            /> */}
             <Button
               variant="contained"
               color="primary"
@@ -135,3 +144,4 @@ const ProjectCreate = ({ open, onClose }) => {
 };
 
 export default ProjectCreate;
+

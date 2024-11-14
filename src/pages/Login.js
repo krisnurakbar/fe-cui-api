@@ -19,6 +19,8 @@ const Login = () => {
         localStorage.setItem("userToken", response.data.token); // Store the token
         localStorage.setItem("userEmail", response.data.email);
         localStorage.setItem("userRole", response.data.role);
+        localStorage.setItem("companyId", response.data.company_id);
+        localStorage.setItem("firstName", response.data.first_name);
 
         setOpenSnackbar(true); // Show Snackbar for success
         setTimeout(() => {

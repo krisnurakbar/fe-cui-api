@@ -4,10 +4,10 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from './components/theme/themePrimitives';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import UserList from './pages/UserList';
-import ProjectList from './pages/ProjectList';
+import UserList from './pages/Master/UserList';
+import ProjectList from './pages/Project/ProjectList';
 import TaskList from './pages/TaskList';
-import ProjectTaskList from './pages/ProjectTaskList';
+import ProjectTaskList from './pages/ProjectProgress/ProjectTaskList';
 import Scurve from './pages/Scurve';
 import ScurveCost from './pages/ScurveCost';
 import ScurveValue from './pages/ScurveValue';
@@ -19,7 +19,8 @@ import './App.css';
 import AppNavbar from './components/AppNavbar';
 import SideMenu from './components/SideMenu';
 import { Box, Stack } from '@mui/material';
-import ProjectCreate from './pages/ProjectCreate';
+import ProjectCreate from './pages/Project/ProjectCreate';
+import CompanyList from './pages/Master/CompanyList';
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
     { path: "/login", element: loggedIn ? <Navigate to="/dashboard" /> : <Login /> },
     { path: "/register", element: loggedIn ? <Navigate to="/dashboard" /> : <Register /> },
     { path: "/users", element: loggedIn ? <UserList /> : <Navigate to="/login" /> },
+    { path: "/companies", element: loggedIn ? <CompanyList /> : <Navigate to="/login" /> },
     { path: "/dashboard", element: loggedIn ? <Dashboard /> : <Navigate to="/login" /> },
     { path: "/home", element: loggedIn ? <Navigate to="/dashboard" /> : <Home /> },
     { path: "/projects", element: loggedIn ? <ProjectList /> : <Navigate to="/login" /> },

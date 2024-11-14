@@ -16,10 +16,16 @@ const deleteProgressProject = (id, data) => {
   return api.delete(`/delete/${id}`, data);
 };
 
+//get project progress view
+const projectProgressView = (data) => {
+  return api.get(`/view/`, data);
+}
+
 
 export default {
   projectProgressCreate,
-    projectProgressUpdate,
-    deleteProgressProject,
+  projectProgressUpdate,
+  deleteProgressProject,
+  projectProgressView
 };
 

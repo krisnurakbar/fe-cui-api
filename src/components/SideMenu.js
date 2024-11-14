@@ -67,13 +67,13 @@ export default function SideMenu() {
       >
         <Avatar
           sizes="small"
-          alt={localStorage.getItem('userEmail')}
-          src="/static/images/avatar/7.jpg"
+          // alt={localStorage.getItem('userEmail')}
+          src="#"
           sx={{ width: 36, height: 36 }}
         />
         <Box sx={{ mr: 'auto' }}>
           <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
-            {localStorage.getItem('userEmail')}
+            {localStorage.getItem('firstName')}
           </Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
           {localStorage.getItem('userRole')}

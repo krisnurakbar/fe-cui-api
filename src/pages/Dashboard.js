@@ -1,9 +1,17 @@
 import React from 'react';
-import { Container, Typography, Button } from '@mui/material';
+import { Container, Typography, Paper, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom'; // For navigation
+import QuadrantGraph from '../components/QuadrantGraph';
 
 const Dashboard = () => {
   const navigate = useNavigate(); // Initialize useNavigate for navigation
+
+  const points = [
+    { x: 50, y: 50 },
+    { x: -50, y: 50 },
+    { x: 50, y: -50 },
+    { x: -50, y: -50 },
+  ];
 
   const handleLogout = () => {
     console.log("Logging out..."); // Log for debugging
@@ -13,25 +21,13 @@ const Dashboard = () => {
   };
 
   return (
-    <Container maxWidth="sm" 
-      sx={{ 
-        mt: 8,
-        display: 'flex',
-        flexDirection: 'column', 
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        minHeight: '100vh' // Ensure the Container takes the full height of the viewport
-      }}
-    >
-      <Typography variant="h4" component="h1" gutterBottom>
-        Dashboard
-      </Typography>
-      <Typography variant="body1" sx={{ mb: 2 }}>
-        Welcome to your dashboard! Here you can manage your settings and view your data.
-      </Typography>
-      
-    </Container>
+    <Paper sx={{ height: 'calc(81vh - 0px)', width: '100%', height: '100%' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'left', paddingLeft: 2, paddingRight: 2 }}>
+        <QuadrantGraph />
+      </Box>
+    </Paper>
   );
 };
 
 export default Dashboard;
+

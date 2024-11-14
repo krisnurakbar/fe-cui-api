@@ -47,9 +47,9 @@ function SideMenuMobile({ open, toggleDrawer }) {
               Riley Carter
             </Typography>
           </Stack>
-          <MenuButton showBadge>
+          {/* <MenuButton showBadge>
             <NotificationsRoundedIcon />
-          </MenuButton>
+          </MenuButton> */}
         </Stack>
         <Divider />
         <Stack sx={{ flexGrow: 1 }}>

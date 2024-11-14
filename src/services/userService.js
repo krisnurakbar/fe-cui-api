@@ -8,6 +8,10 @@ const getUsers = () => {
   return api.get('/');
 };
 
+const createUser = (data) => {
+  return api.post('/create/', data);
+};
+
 const updateUser = (id, data) => {
   return api.put(`/${id}`, data);
 };
@@ -22,6 +26,7 @@ const deleteUser = (id) => {
 
 export default {
   getUsers,
+  createUser,
   updateUser,
   updateStatusUser,
   deleteUser,

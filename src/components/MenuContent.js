@@ -9,6 +9,7 @@ import Stack from '@mui/material/Stack';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import AnalyticsRoundedIcon from '@mui/icons-material/AnalyticsRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
+import BusinessIcon from '@mui/icons-material/Business';
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
@@ -23,6 +24,7 @@ const mainListItems = [
 ];
 
 const secondaryListItems = [
+  { text: 'Companies', icon: <BusinessIcon />, link: '/companies' },
   { text: 'Users', icon: <PeopleRoundedIcon />, link: '/users' },
 ];
 
