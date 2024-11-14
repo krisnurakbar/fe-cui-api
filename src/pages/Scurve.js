@@ -64,10 +64,14 @@ const Scurve = () => {
   const { reportDates, planProgress, actualProgress, week_no } = chartData;
 
   return (
-    <div style={{ height: 'calc(81vh - 0px)', width: "100%" }}>
+    <div style={{ height: `calc(100vh - ${56}px)`, width: "100%" }}>
       <h2>S-curve Chart</h2>
-      <div style={{ height: 'calc(100vh - 170px)', width: "100%", overflow: "hidden"}}>
-        
+      {/* The outermost div is the container for the chart, and it's given a fixed height so that it doesn't overflow the page. The height is set to be the full height of the viewport minus the height of the header and a little padding at the top and bottom. The overflow is set to "hidden" so that the chart doesn't spill out of the container if the data is too big. */}
+      <div style={{ 
+        height: "97%", // Take up the full height of the page
+        width: "100%", // Take up the full width of the page
+        overflow: "hidden" // Don't let the chart spill out of the container if the data is too big
+      }}>
         <LineChart
           slotProps={{
             legend: {
@@ -93,5 +97,4 @@ const Scurve = () => {
     </div>
   );
 };
-
 export default Scurve;
