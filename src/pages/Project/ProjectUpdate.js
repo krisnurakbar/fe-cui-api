@@ -51,6 +51,7 @@ const ProjectUpdate = ({ open, onClose, currentData }) => {
     };
   
     return (
+      <div>
       <Drawer
         anchor="right"
         open={open}
@@ -61,7 +62,17 @@ const ProjectUpdate = ({ open, onClose, currentData }) => {
             width: '30%',
             position: 'fixed',
             bottom: 0,
-            maxHeight: '97vh',
+            transform: 'none',
+            maxWidth: 'none',
+            borderTopLeftRadius: 10,
+            borderBottomLeftRadius: 10,
+            borderTopRightRadius: 10,
+            borderBottomRightRadius: 10,
+            marginRight: 2,
+            marginTop: 1,
+            marginBottom: 1,
+            overflowY: 'auto', // Ensures the drawer is scrollable
+            maxHeight: '97vh', // Set max height for scrolling to activate
           },
         }}
       >
@@ -126,6 +137,7 @@ const ProjectUpdate = ({ open, onClose, currentData }) => {
           />
         </Box>
       </Drawer>
+      </div>
     );
 };
 

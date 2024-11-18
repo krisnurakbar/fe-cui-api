@@ -36,8 +36,13 @@ const syncPlanProgressManual = (id) => {
   return api.get(`/${id}/plan-progress`);
 };
 
+const getProjectById = (cu_project_id) => {
+  return api.get(`/info/${cu_project_id}`);
+}
+
 export default {
   getProjects,
+  getProjectById,
   updateProject,
   updateStatusProject,
   deleteProject,

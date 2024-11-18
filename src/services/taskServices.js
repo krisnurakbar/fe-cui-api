@@ -24,8 +24,8 @@ const updateTaskStatus = (id, status, data) => {
   return api.put(`/${id}/${status}`, data); // Update the status of a specific task
 };
 
-const getProjectTasks = (project_id, data) => {
-  return api.get(`project/${project_id}`, data); // Update the status of a specific task
+const getProjectTasks = (cu_project_id, data) => {
+  return api.get(`/${cu_project_id}`, data); // Update the status of a specific task
 };
 
 export default {

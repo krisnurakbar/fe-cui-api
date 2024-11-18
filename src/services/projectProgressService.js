@@ -21,11 +21,15 @@ const projectProgressView = (data) => {
   return api.get(`/view/`, data);
 }
 
+const projectProgressUpdateByParameter = (cu_project_id, data) => {
+  return api.put(`/updateByParameter/${cu_project_id}`, data);
+}
 
 export default {
   projectProgressCreate,
   projectProgressUpdate,
   deleteProgressProject,
-  projectProgressView
+  projectProgressView,
+  projectProgressUpdateByParameter
 };
 

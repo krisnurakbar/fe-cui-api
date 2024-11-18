@@ -10,8 +10,10 @@ import ListItemIcon, { listItemIconClasses } from '@mui/material/ListItemIcon';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import MenuButton from './MenuButton';
-import InsightsIcon from '@mui/icons-material/Insights';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import SyncIcon from '@mui/icons-material/Sync';
+import projectProgressService from '../services/projectProgressService';
 
 const MenuItem = styled(MuiMenuItem)({
   margin: '2px 0',
@@ -40,7 +42,7 @@ const OptionsMenuProject = ({ params }) => {
         onClick={handleClick}
         sx={{ borderColor: 'transparent' }}
       >
-        <InsightsIcon />
+        <MoreVertIcon />
       </MenuButton>
       <Menu
         anchorEl={anchorEl}
@@ -62,37 +64,10 @@ const OptionsMenuProject = ({ params }) => {
           },
         }}
       >
-        <MenuItem onClick={() => {
-            const url = `/project/s-curve/${params.row.cu_project_id}`;
-            window.open(url, '_blank');
-        }}>
-          <ListItemIcon>
-            <VisibilityIcon />
-          </ListItemIcon>
-          View S-Curve Progress
-        </MenuItem>
-        <MenuItem onClick={() => {
-            const url = `/project/s-curve-cost/${params.row.cu_project_id}`;
-            window.open(url, '_blank');
-        }}>
-          <ListItemIcon>
-            <VisibilityIcon />
-          </ListItemIcon>
-          View S-Curve Cost
-        </MenuItem>
-        <MenuItem onClick={() => {
-            const url = `/project/s-curve-value/${params.row.cu_project_id}`;
-            window.open(url, '_blank');
-        }}>
-          <ListItemIcon>
-            <VisibilityIcon />
-          </ListItemIcon>
-          View S-Curve Value
-        </MenuItem>
         <MenuItem
         onClick={() => {
             const url = `${process.env.REACT_APP_DOMAIN}/project/s-curve/${params.row.cu_project_id}`;
-            navigator.clipboard.writeText(url);
+            navigator.clipboard.writeText('Copy link: ' + url);
             alert('Link copied to clipboard!');
         }}
         >
@@ -100,6 +75,18 @@ const OptionsMenuProject = ({ params }) => {
             <ContentCopyIcon />
           </ListItemIcon>
           Copy Link
+        </MenuItem>
+        <MenuItem
+          onClick={async () => {
+            alert('Background syncing is already in progress...');
+            const response = await projectProgressService.projectProgressUpdateByParameter(params.row.cu_project_id);
+            alert(response.data.message);
+          }}
+        >
+          <ListItemIcon>
+            <SyncIcon />
+          </ListItemIcon>
+          Sync Progress
         </MenuItem>
       </Menu>
     </React.Fragment>

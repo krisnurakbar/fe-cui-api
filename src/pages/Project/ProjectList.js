@@ -74,22 +74,54 @@ const ProjectList = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', flex: 1, minWidth: 10 },
-    { field: 'cu_project_id', headerName: 'CU Project ID', flex: 3, minWidth: 150 },
-    { field: 'project_name', headerName: 'Project Name', flex: 3, minWidth: 150 },
-    { field: 'project_type', headerName: 'Project Type', flex: 1, minWidth: 100 },
-    { field: 'start_date', headerName: 'Start Date', flex: 1, minWidth: 90, 
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'cu_project_id', headerName: 'CU Project ID', width: 130 },
+    { field: 'project_name', headerName: 'Project Name', width: 200 },
+    { 
+      field: 'project_type', 
+      headerName: 'Project Type', 
+      width: 170,
+      renderCell: (params) => {
+        const project_type = params.value;
+        let color;
+        if (project_type === 'New Development') {
+          color = 'primary';
+        } else if (project_type === 'Enhancement') {
+          color = 'success';
+        } else {
+          color = 'error';
+        }
+        return (
+          <Box
+            sx={{
+              display: 'inline-flex',
+              backgroundColor: (theme) => theme.palette[color].light,
+              padding: '0px 12px',
+              borderRadius: '16px',
+              height: '22px',
+              alignItems: 'center',
+              justifyContent: 'center',
+              verticalAlign: 'middle',
+              color: 'white',
+              fontSize: '11px',
+            }}
+          >
+            {project_type}
+          </Box>
+        );
+      } 
+    },
+    { field: 'start_date', headerName: 'Start Date', width: 110, 
       valueFormatter: (params) => dayjs(params.value).format('DD-MM-YYYY') },
-    { field: 'due_date', headerName: 'Due Date', flex: 1, minWidth: 90, 
+    { field: 'due_date', headerName: 'Due Date', width: 110, 
       valueFormatter: (params) => dayjs(params.value).format('DD-MM-YYYY') },
-    { field: 'createdAt', headerName: 'Created At', flex: 1, minWidth: 150, 
-      valueFormatter: (params) => dayjs(params.value).format('DD-MM-YYYY') },
+    // { field: 'createdAt', headerName: 'Created At', width: 150, 
+    //   valueFormatter: (params) => dayjs(params.value).format('DD-MM-YYYY') },
     // { field: 'company_id', headerName: 'Company ID', hide: true },
     {
       field: 'status',
       headerName: 'Status',
-      flex: 1,
-      minWidth: 50,
+      width: 100,
       renderCell: (params) => (
         <>
           <IconButton
@@ -106,15 +138,14 @@ const ProjectList = () => {
     {
       field: 'action',
       headerName: 'Action',
-      flex: 1,
-      minWidth: 200,
+      width: 250,
       renderCell: (params) => (
         <>
           <OptionsMenuSyncProject params={params} />
           <OptionsMenuProject params={params} />
           <IconButton
             aria-label="view"
-            onClick={() => navigate(`/tasks/project/${params.row.id}`)}
+            onClick={() => navigate(`/tasks/${params.row.cu_project_id}`)}
             size='small'
           >
             <VisibilityIcon />
@@ -127,12 +158,10 @@ const ProjectList = () => {
             <EditIcon />
           </IconButton>
           <ProjectUpdate params={params} open={openDrawerUpdate} onClose={() => {setOpenDrawerUpdate(false);}} currentData={selectedRowData} /> {/* Pass currentData */}
-
         </>
       ),
     },
   ];
-
   const rows = filteredProjects.map(project => ({
     id: project.id,
     cu_project_id: project.cu_project_id,
@@ -162,12 +191,16 @@ const ProjectList = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '100%',
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
         }}
       >
         <CircularProgress />
       </Box>
     );
+
   }
 
   return (

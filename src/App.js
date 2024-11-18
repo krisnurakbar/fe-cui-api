@@ -37,7 +37,7 @@ const App = () => {
     { path: "/projects", element: loggedIn ? <ProjectList /> : <Navigate to="/login" /> },
     { path: "/", element: loggedIn ? <Navigate to="/dashboard" /> : <Home /> },
     { path: "/tasks", element: loggedIn ? <TaskList /> : <Navigate to="/login" /> },
-    { path: "/tasks/project/:project_id", element: loggedIn ? <ProjectTaskList /> : <Navigate to="/login" /> },
+    { path: "/tasks/:cu_project_id", element: loggedIn ? <ProjectTaskList /> : <Navigate to="/login" /> },
     { path: "/projects/create", element: loggedIn ? <ProjectCreate /> : <Navigate to="/login" /> },
   ];
 
